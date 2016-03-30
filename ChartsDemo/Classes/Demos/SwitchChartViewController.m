@@ -71,7 +71,7 @@
     
     _chartView.rightAxis.enabled = NO;
     
-    [self setDataCount:100 range:100];
+    [self setDataCount:30 range:10];
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,6 +123,7 @@
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
     
     _chartView.data = data;
+    [_chartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
 }
 
 - (void)optionTapped:(NSString *)key
@@ -132,9 +133,14 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartScaled:(ChartViewBase *)chartView scaleX:(CGFloat)scaleX scaleY:(CGFloat)scaleY
+- (void)chartMinScaled:(ChartViewBase *)chartView
 {
-    NSLog(@"chartScaled");
+    NSLog(@"Min scale");
+}
+
+- (void)chartMaxScaled:(ChartViewBase *)chartView
+{
+    NSLog(@"Max scale");
 }
 
 @end

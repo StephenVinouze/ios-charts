@@ -732,53 +732,23 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     }
                 }
                 else if _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y)
+                {
+                    if canZoomMoreX
                     {
-                        if canZoomMoreX
+                        performPinchChange(recognizer, canZoomMoreX: canZoomMoreX, canZoomMoreY: canZoomMoreY)
+                    }
+                    else
+                    {
+                        if !_viewPortHandler.canZoomInMoreY
                         {
-                            performPinchChange(recognizer, canZoomMoreX: canZoomMoreX, canZoomMoreY: canZoomMoreY)
+                            delegate?.chartMinScaled?(self)
                         }
-                        else
+                        else if !_viewPortHandler.canZoomOutMoreY
                         {
-                            if !_viewPortHandler.canZoomInMoreY
-                            {
-                                delegate?.chartMinScaled?(self)
-                            }
-                            else if !_viewPortHandler.canZoomOutMoreY
-                            {
-                                delegate?.chartMaxScaled?(self)
-                            }
+                            delegate?.chartMaxScaled?(self)
                         }
+                    }
                 }
-
-                
-//                if canZoomMoreX || canZoomMoreY
-//                {
-//                    var location = recognizer.locationInView(self)
-//                    location.x = location.x - _viewPortHandler.offsetLeft
-//
-//                    if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
-//                    {
-//                        location.y = -(location.y - _viewPortHandler.offsetTop)
-//                    }
-//                    else
-//                    {
-//                        location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
-//                    }
-//                    
-//                    let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
-//                    let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
-//                    
-//                    var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
-//                    matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
-//                    matrix = CGAffineTransformTranslate(matrix,
-//                        -location.x, -location.y)
-//                    
-//                    matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
-//                    
-//                    _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
-//                    
-//                    delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
-//                }
                 
                 recognizer.nsuiScale = 1.0
             }
