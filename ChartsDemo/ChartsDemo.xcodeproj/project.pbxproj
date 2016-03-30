@@ -95,6 +95,8 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		768E27F01CAC00D1004DCC5B /* SwitchChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 768E27EE1CAC00D1004DCC5B /* SwitchChartViewController.m */; };
+		768E27F11CAC00D1004DCC5B /* SwitchChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 768E27EF1CAC00D1004DCC5B /* SwitchChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +300,9 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
+		768E27ED1CAC00D1004DCC5B /* SwitchChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchChartViewController.h; sourceTree = "<group>"; };
+		768E27EE1CAC00D1004DCC5B /* SwitchChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchChartViewController.m; sourceTree = "<group>"; };
+		768E27EF1CAC00D1004DCC5B /* SwitchChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,8 +402,8 @@
 			children = (
 				5B8E087E1C635B5200438BAF /* Charts.framework */,
 				5B8E08801C635B5200438BAF /* Charts.framework */,
-				5B8E08821C635B5200438BAF /* ChartsTests.xctest */,
 				65B3F6571C73B4F6000983D0 /* Charts.framework */,
+				5B8E08821C635B5200438BAF /* ChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -492,6 +497,9 @@
 				5BEAED181ABBFB340013F194 /* StackedBarChartViewController.h */,
 				5BEAED191ABBFB340013F194 /* StackedBarChartViewController.m */,
 				5BEAED1A1ABBFB340013F194 /* StackedBarChartViewController.xib */,
+				768E27ED1CAC00D1004DCC5B /* SwitchChartViewController.h */,
+				768E27EE1CAC00D1004DCC5B /* SwitchChartViewController.m */,
+				768E27EF1CAC00D1004DCC5B /* SwitchChartViewController.xib */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -695,6 +703,7 @@
 				65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */,
 				5B0CC7861ABB875400665592 /* PieChartViewController.xib in Resources */,
 				5B7B3AE01C437F61001C109B /* RealmCandleChartViewController.xib in Resources */,
+				768E27F11CAC00D1004DCC5B /* SwitchChartViewController.xib in Resources */,
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
 				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
@@ -748,6 +757,7 @@
 				5BEAED271ABC0BE20013F194 /* MultipleLinesChartViewController.m in Sources */,
 				65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */,
 				5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */,
+				768E27F01CAC00D1004DCC5B /* SwitchChartViewController.m in Sources */,
 				65BF12601BFBC710005C28D9 /* RealmDemoData.m in Sources */,
 				5B4AC1511C47E8720028D1A6 /* RealmHorizontalBarChartViewController.m in Sources */,
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,

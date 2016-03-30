@@ -16,6 +16,7 @@
 #import "LineChart2ViewController.h"
 #import "BarChartViewController.h"
 #import "HorizontalBarChartViewController.h"
+#import "SwitchChartViewController.h"
 #import "CombinedChartViewController.h"
 #import "PieChartViewController.h"
 #import "ScatterChartViewController.h"
@@ -67,6 +68,11 @@
                           @"title": @"Horizontal Bar Chart",
                           @"subtitle": @"A simple demonstration of the horizontal bar chart.",
                           @"class": HorizontalBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Switch Chart",
+                          @"subtitle": @"Demonstrates how to switch between a bar chart and a line chart",
+                          @"class": SwitchChartViewController.class
                           },
                       @{
                           @"title": @"Combined Chart",
