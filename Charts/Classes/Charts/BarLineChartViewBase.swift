@@ -711,39 +711,74 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             
             if (_isScaling)
             {
-                canZoomMoreX = canZoomMoreX && _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X);
-                canZoomMoreY = canZoomMoreY && _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y);
-                if canZoomMoreX || canZoomMoreY
+//                canZoomMoreX = canZoomMoreX && _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X);
+//                canZoomMoreY = canZoomMoreY && _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y);
+                if _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X)
                 {
-                    var location = recognizer.locationInView(self)
-                    location.x = location.x - _viewPortHandler.offsetLeft
-
-                    if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+                    if canZoomMoreX
                     {
-                        location.y = -(location.y - _viewPortHandler.offsetTop)
+                        performPinchChange(recognizer, canZoomMoreX: canZoomMoreX, canZoomMoreY: canZoomMoreY)
                     }
                     else
                     {
-                        location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
-                    }
-                    
-                    let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
-                    let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
-                    
-                    var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
-                    matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
-                    matrix = CGAffineTransformTranslate(matrix,
-                        -location.x, -location.y)
-                    
-                    matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
-                    
-                    _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
-                    
-                    if (delegate !== nil)
-                    {
-                        delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
+                        if !_viewPortHandler.canZoomInMoreX
+                        {
+                            delegate?.chartMinScaled?(self)
+                        }
+                        else if !_viewPortHandler.canZoomOutMoreX
+                        {
+                            delegate?.chartMaxScaled?(self)
+                        }
                     }
                 }
+                else if _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y)
+                    {
+                        if canZoomMoreX
+                        {
+                            performPinchChange(recognizer, canZoomMoreX: canZoomMoreX, canZoomMoreY: canZoomMoreY)
+                        }
+                        else
+                        {
+                            if !_viewPortHandler.canZoomInMoreY
+                            {
+                                delegate?.chartMinScaled?(self)
+                            }
+                            else if !_viewPortHandler.canZoomOutMoreY
+                            {
+                                delegate?.chartMaxScaled?(self)
+                            }
+                        }
+                }
+
+                
+//                if canZoomMoreX || canZoomMoreY
+//                {
+//                    var location = recognizer.locationInView(self)
+//                    location.x = location.x - _viewPortHandler.offsetLeft
+//
+//                    if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+//                    {
+//                        location.y = -(location.y - _viewPortHandler.offsetTop)
+//                    }
+//                    else
+//                    {
+//                        location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
+//                    }
+//                    
+//                    let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
+//                    let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
+//                    
+//                    var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
+//                    matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
+//                    matrix = CGAffineTransformTranslate(matrix,
+//                        -location.x, -location.y)
+//                    
+//                    matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
+//                    
+//                    _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+//                    
+//                    delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
+//                }
                 
                 recognizer.nsuiScale = 1.0
             }
@@ -853,6 +888,35 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 _outerScrollView = nil
             }
         }
+    }
+    
+    private func performPinchChange(recognizer: NSUIPinchGestureRecognizer, canZoomMoreX: Bool, canZoomMoreY: Bool)
+    {
+        var location = recognizer.locationInView(self)
+        location.x = location.x - _viewPortHandler.offsetLeft
+        
+        if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+        {
+            location.y = -(location.y - _viewPortHandler.offsetTop)
+        }
+        else
+        {
+            location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
+        }
+        
+        let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
+        let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
+        
+        var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
+        matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
+        matrix = CGAffineTransformTranslate(matrix,
+                                            -location.x, -location.y)
+        
+        matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
+        
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        
+        delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
     }
     
     private func performPanChange(translation translation: CGPoint) -> Bool

@@ -34,6 +34,10 @@ public protocol ChartViewDelegate
     // Callbacks when the chart is scaled / zoomed via pinch zoom gesture.
     optional func chartScaled(chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat)
     
+    optional func chartMinScaled(chartView: ChartViewBase)
+    
+    optional func chartMaxScaled(chartView: ChartViewBase)
+    
     // Callbacks when the chart is moved / translated via drag gesture.
     optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
