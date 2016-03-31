@@ -111,7 +111,7 @@ static int kMaximumVisibleEntries = 15;
 {
     if ([self switchFromChart:_lineChartView toChart:_barChartView]) {
         [_barChartView moveViewToX:([_barChartView barUnitValue] * _lineChartView.lowestVisibleXIndex)];
-        [_barChartView animateWithYAxisDuration:0.3f];
+        [_barChartView animateWithYAxisDuration:0.5f];
         _isSwitching = NO;
     }
 }
@@ -120,7 +120,7 @@ static int kMaximumVisibleEntries = 15;
 {
     if ([self switchFromChart:_barChartView toChart:_lineChartView]) {
         [_lineChartView moveViewToX:_barChartView.lowestVisibleXIndex];
-        [_lineChartView animateWithXAxisDuration:0.5f];
+        [_lineChartView animateWithXAxisDuration:1.f];
         _isSwitching = NO;
     }
 }

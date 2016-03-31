@@ -12,11 +12,12 @@ import Charts
 public extension BarLineChartViewBase {
     
     func configureWithDelegate(delegate: ChartViewDelegate?) {
-        self.delegate = delegate;
-        self.descriptionText = "";
-        self.pinchZoomEnabled = false;
-        self.scaleYEnabled = false;
-        self.drawGridBackgroundEnabled = false;
+        self.delegate = delegate
+        self.descriptionText = ""
+        self.pinchZoomEnabled = false
+        self.scaleYEnabled = false
+        self.drawGridBackgroundEnabled = false
+        self.doubleTapToZoomEnabled = false
         
         if let barChartView = self as? BarChartView {
             barChartView.drawBarShadowEnabled = false
@@ -34,20 +35,20 @@ public extension BarLineChartViewBase {
     }
     
     func configureXAxis(xAxis: ChartXAxis) {
-        xAxis.labelPosition = .Bottom;
-        xAxis.drawGridLinesEnabled = false;
-        xAxis.labelFont = configureFont();
+        xAxis.labelPosition = .Bottom
+        xAxis.drawGridLinesEnabled = false
+        xAxis.labelFont = configureFont()
     }
     
     func configureYAxis(yAxis: ChartYAxis) {
-        yAxis.valueFormatter = NSNumberFormatter();
-        yAxis.valueFormatter?.maximumFractionDigits = 1;
-        yAxis.drawGridLinesEnabled = true;
-        yAxis.labelFont = configureFont();
+        yAxis.valueFormatter = NSNumberFormatter()
+        yAxis.valueFormatter?.maximumFractionDigits = 1
+        yAxis.drawGridLinesEnabled = true
+        yAxis.labelFont = configureFont()
     }
     
     func configureFont() -> UIFont {
-        return UIFont(name: "HelveticaNeue-Light", size: 12)!;
+        return UIFont(name: "HelveticaNeue-Light", size: 12)!
     }
     
     func barUnitValue() -> Float {

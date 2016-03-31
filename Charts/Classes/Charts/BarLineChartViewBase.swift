@@ -716,7 +716,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 {
                     if canZoomMoreX
                     {
-                        performPinchChange(recognizer, canZoomMoreX: canZoomMoreX, canZoomMoreY: canZoomMoreY)
+                        performPinchChange(recognizer)
                     }
                     else
                     {
@@ -732,9 +732,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 else if _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y)
                 {
-                    if canZoomMoreX
+                    if canZoomMoreY
                     {
-                        performPinchChange(recognizer, canZoomMoreX: canZoomMoreX, canZoomMoreY: canZoomMoreY)
+                        performPinchChange(recognizer)
                     }
                     else
                     {
@@ -859,7 +859,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     
-    private func performPinchChange(recognizer: NSUIPinchGestureRecognizer, canZoomMoreX: Bool, canZoomMoreY: Bool)
+    private func performPinchChange(recognizer: NSUIPinchGestureRecognizer)
     {
         var location = recognizer.locationInView(self)
         location.x = location.x - _viewPortHandler.offsetLeft
@@ -873,14 +873,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
         }
         
-        let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
-        let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
+        let scaleX = _scaleXEnabled ? recognizer.nsuiScale : 1.0
+        let scaleY = _scaleYEnabled ? recognizer.nsuiScale : 1.0
         
         var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
         matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
-        matrix = CGAffineTransformTranslate(matrix,
-                                            -location.x, -location.y)
-        
+        matrix = CGAffineTransformTranslate(matrix, -location.x, -location.y)
         matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
         
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
@@ -912,10 +910,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
         
-        if (delegate !== nil)
-        {
-            delegate?.chartTranslated?(self, dX: translation.x, dY: translation.y)
-        }
+        delegate?.chartTranslated?(self, dX: translation.x, dY: translation.y)
         
         // Did we managed to actually drag or did we reach the edge?
         return matrix.tx != originalMatrix.tx || matrix.ty != originalMatrix.ty
