@@ -586,7 +586,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     // MARK: - Gestures
     
-    private enum GestureScaleAxis
+    @objc
+    public enum GestureScaleAxis : Int
     {
         case Both
         case X
@@ -706,13 +707,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         else if (recognizer.state == NSUIGestureRecognizerState.Changed)
         {
             let isZoomingOut = (recognizer.nsuiScale < 1)
-            var canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
-            var canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
+            let canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
+            let canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
             if (_isScaling)
             {
-//                canZoomMoreX = canZoomMoreX && _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X);
-//                canZoomMoreY = canZoomMoreY && _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y);
                 if _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X)
                 {
                     if canZoomMoreX
@@ -723,11 +722,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     {
                         if !_viewPortHandler.canZoomInMoreX
                         {
-                            delegate?.chartMinScaled?(self)
+                            delegate?.chartMinScaled?(self, gestureAxis: .X)
                         }
                         else if !_viewPortHandler.canZoomOutMoreX
                         {
-                            delegate?.chartMaxScaled?(self)
+                            delegate?.chartMaxScaled?(self, gestureAxis: .X)
                         }
                     }
                 }
@@ -741,11 +740,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     {
                         if !_viewPortHandler.canZoomInMoreY
                         {
-                            delegate?.chartMinScaled?(self)
+                            delegate?.chartMinScaled?(self, gestureAxis: .Y)
                         }
                         else if !_viewPortHandler.canZoomOutMoreY
                         {
-                            delegate?.chartMaxScaled?(self)
+                            delegate?.chartMaxScaled?(self, gestureAxis: .Y)
                         }
                     }
                 }

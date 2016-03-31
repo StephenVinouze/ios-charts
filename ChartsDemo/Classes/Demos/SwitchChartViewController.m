@@ -133,14 +133,18 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartMinScaled:(ChartViewBase *)chartView
+- (void)chartMinScaled:(ChartViewBase *)chartView gestureAxis:(enum GestureScaleAxis)gestureAxis
 {
-    NSLog(@"Min scale");
+    if (gestureAxis == GestureScaleAxisX) {
+        NSLog(@"Min scale");
+    }
 }
 
-- (void)chartMaxScaled:(ChartViewBase *)chartView
+- (void)chartMaxScaled:(ChartViewBase *)chartView gestureAxis:(enum GestureScaleAxis)gestureAxis
 {
-    NSLog(@"Max scale");
+    if (gestureAxis == GestureScaleAxisX) {
+        NSLog(@"Max scale");
+    }
 }
 
 @end
