@@ -33,6 +33,8 @@ static int kMaximumVisibleEntries = 15;
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1];
+    
     self.title = @"Switch Bar Chart";
     
     self.options = @[
@@ -76,12 +78,14 @@ static int kMaximumVisibleEntries = 15;
         [yBarVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
-    [_barChartView configureWithDelegate:self];
+    [_barChartView configureWithMode:ChartModeDisplay andType:ChartTypePain];
+    [_barChartView setDelegate:self];
     [_barChartView setData:[_barChartView generateBarChartData:xVals wearinessEntries:yBarVals1 painEntries:yBarVals2 painScoreEntries:yBarVals3]];
     [_barChartView setVisibleXRangeWithMinXRange:([_barChartView barUnitValue] * kMinimumVisibleEntries) maxXRange:([_barChartView barUnitValue] * kMaximumVisibleEntries)];
     [_barChartView zoom:(max / kMinimumVisibleEntries) scaleY:1 x:0 y:0];
     
-    [_lineChartView configureWithDelegate:self];
+    [_lineChartView configureWithMode:ChartModeDisplay andType:ChartTypePain];
+    [_lineChartView setDelegate:self];
     [_lineChartView setData:[_lineChartView generateLineChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3]];
     [_lineChartView setVisibleXRangeWithMinXRange:kMaximumVisibleEntries maxXRange:kMaximumVisibleEntries * 2];
     [_lineChartView zoom:(max / kMaximumVisibleEntries) scaleY:1 x:0 y:0];
