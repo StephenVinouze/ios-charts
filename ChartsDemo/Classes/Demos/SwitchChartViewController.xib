@@ -40,17 +40,16 @@
             </subviews>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
-                <constraint firstItem="V2g-nf-IhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Fie-xj-3LN"/>
-                <constraint firstItem="V2g-nf-IhO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="NTg-fB-L3e"/>
+                <constraint firstAttribute="trailingMargin" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" constant="-8" id="0uj-5R-J5H"/>
+                <constraint firstAttribute="bottom" secondItem="V2g-nf-IhO" secondAttribute="bottom" id="If1-xx-CMf"/>
+                <constraint firstAttribute="bottomMargin" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="-8" id="LAi-Yc-rhw"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" constant="39" id="Owr-Oe-cw3"/>
                 <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
-                <constraint firstAttribute="bottom" secondItem="V2g-nf-IhO" secondAttribute="bottom" id="WjY-Er-9AG"/>
-                <constraint firstAttribute="trailing" secondItem="V2g-nf-IhO" secondAttribute="trailing" id="XEQ-cE-pOI"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="-8" id="YLr-hX-Ya0"/>
-                <constraint firstAttribute="bottom" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" id="Yvx-9n-Eix"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="-8" id="R4R-sD-oN2"/>
+                <constraint firstItem="V2g-nf-IhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cfz-Rq-qnD"/>
                 <constraint firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
-                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="V2g-nf-IhO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="zIX-cN-5Vb"/>
+                <constraint firstAttribute="trailing" secondItem="V2g-nf-IhO" secondAttribute="trailing" id="zxF-1V-TsQ"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>

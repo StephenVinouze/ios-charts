@@ -15,6 +15,9 @@
 #import "ChartsDemo-Swift.h"
 
 @interface SwitchChartViewController () <ChartViewDelegate>
+{
+    BOOL _isSwitching;
+}
 
 @property (nonatomic, weak) IBOutlet BarChartView *barChartView;
 @property (nonatomic, weak) IBOutlet LineChartView *lineChartView;
@@ -42,14 +45,44 @@
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
+    int max = 100;
+    int range = 10;
+    
+    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
+    NSMutableArray *yBarVals1 = [[NSMutableArray alloc] init];
+    NSMutableArray *yBarVals2 = [[NSMutableArray alloc] init];
+    NSMutableArray *yBarVals3 = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < max; i++)
+    {
+        [xVals addObject:[@(i + 1) stringValue]];
+        
+        double val = (double) (arc4random_uniform(range));
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yBarVals1 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        
+        val = (double) (arc4random_uniform(range));
+        [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yBarVals2 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        
+        val = (double) (arc4random_uniform(range));
+        [yVals3 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yBarVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+    }
+    
     [_barChartView configure:self];
     [_lineChartView configure:self];
     
-    [_barChartView setData:[self getBarData:_barChartView count:100 range:10]];
+    [_barChartView setData:[_barChartView generateBarChartData:xVals wearinessEntries:yBarVals1 painEntries:yBarVals2 painScoreEntries:yBarVals3]];
     [_barChartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
     
-    [_lineChartView setData:[self getLineData:_lineChartView count:100 range:10]];
-    [_lineChartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
+    [_lineChartView setData:[_lineChartView generateLineChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3]];
+    [_lineChartView setVisibleXRangeWithMinXRange:15 maxXRange:30];
+    
+    [self showBarChart];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,80 +90,34 @@
     [super didReceiveMemoryWarning];
 }
 
-- (BarChartData *)getBarData:(BarLineChartViewBase *)chart count:(int)count range:(double)range
+- (BOOL)switchFromChart:(BarLineChartViewBase *)fromChart toChart:(BarLineChartViewBase *)toChart
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1) stringValue]];
-        
-        double val = (double) (arc4random_uniform(range));
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-        
-        val = (double) (arc4random_uniform(range));
-        [yVals2 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-        
-        val = (double) (arc4random_uniform(range));
-        [yVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+    if (!_isSwitching && fromChart.hidden == NO) {
+        _isSwitching = YES;
+        fromChart.hidden = YES;
+        toChart.hidden = NO;
+        return YES;
     }
-    
-    return [chart generateBarChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3];
+    return NO;
 }
 
-- (LineChartData *)getLineData:(BarLineChartViewBase *) chart count:(int)count range:(double)range
+- (void)showBarChart
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1) stringValue]];
-        
-        double val = (double) (arc4random_uniform(range));
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
-        
-        val = (double) (arc4random_uniform(range));
-        [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
-        
-        val = (double) (arc4random_uniform(range));
-        [yVals3 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+    if ([self switchFromChart:_lineChartView toChart:_barChartView]) {
+        //[_barChartView moveViewToX:2];
+        [_barChartView animateWithYAxisDuration:0.3f];
+        _isSwitching = NO;
     }
-    
-    return [chart generateLineChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3];
 }
 
-//private boolean switchChart(BarLineChartBase fromChart, BarLineChartBase toChart) {
-//    if (!isSwitching && fromChart.getAlpha() == 1) {
-//        isSwitching = true;
-//        fromChart.setAlpha(0);
-//        toChart.bringToFront();
-//        toChart.setAlpha(1);
-//        return true;
-//    }
-//    return false;
-//}
-//
-//private void showBarChart() {
-//    if (switchChart(mLineChart, mBarChart)) {
-//        mBarChart.moveViewToX(ChartUtils.getBarUnitValue(mBarChart) * mLineChart.getLowestVisibleXIndex());
-//        mBarChart.animateY(500);
-//        isSwitching = false;
-//    }
-//}
-//
-//private void showLineChart() {
-//    if (switchChart(mBarChart, mLineChart)) {
-//        mLineChart.moveViewToX(mBarChart.getLowestVisibleXIndex());
-//        mLineChart.animateX(1000);
-//        isSwitching = false;
-//    }
-//}
+- (void)showLineChart
+{
+    if ([self switchFromChart:_barChartView toChart:_lineChartView]) {
+        //[_lineChartView moveViewToX:2];
+        [_lineChartView animateWithXAxisDuration:0.5f];
+        _isSwitching = NO;
+    }
+}
 
 - (void)optionTapped:(NSString *)key
 {
@@ -142,14 +129,14 @@
 - (void)chartMinScaled:(ChartViewBase *)chartView gestureAxis:(enum GestureScaleAxis)gestureAxis
 {
     if (gestureAxis == GestureScaleAxisX) {
-        NSLog(@"Min scale");
+        [self showBarChart];
     }
 }
 
 - (void)chartMaxScaled:(ChartViewBase *)chartView gestureAxis:(enum GestureScaleAxis)gestureAxis
 {
     if (gestureAxis == GestureScaleAxisX) {
-        NSLog(@"Max scale");
+        [self showLineChart];
     }
 }
 
