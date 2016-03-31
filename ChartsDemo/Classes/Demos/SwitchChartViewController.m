@@ -26,6 +26,9 @@
 
 @implementation SwitchChartViewController
 
+static int kMinimumVisibleEntries = 7;
+static int kMaximumVisibleEntries = 15;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -73,16 +76,19 @@
         [yBarVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
-    [_barChartView configure:self];
-    [_lineChartView configure:self];
-    
+    [_barChartView configureWithDelegate:self];
     [_barChartView setData:[_barChartView generateBarChartData:xVals wearinessEntries:yBarVals1 painEntries:yBarVals2 painScoreEntries:yBarVals3]];
-    [_barChartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
+    [_barChartView setVisibleXRangeWithMinXRange:([_barChartView barUnitValue] * kMinimumVisibleEntries) maxXRange:([_barChartView barUnitValue] * kMaximumVisibleEntries)];
+    [_barChartView zoom:(max / kMinimumVisibleEntries) scaleY:1 x:0 y:0];
     
+    [_lineChartView configureWithDelegate:self];
     [_lineChartView setData:[_lineChartView generateLineChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3]];
-    [_lineChartView setVisibleXRangeWithMinXRange:15 maxXRange:30];
+    [_lineChartView setVisibleXRangeWithMinXRange:kMaximumVisibleEntries maxXRange:kMaximumVisibleEntries * 2];
+    [_lineChartView zoom:(max / kMaximumVisibleEntries) scaleY:1 x:0 y:0];
     
     [self showBarChart];
+    
+    [_barChartView moveViewToX:_barChartView.chartXMax];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,7 +110,7 @@
 - (void)showBarChart
 {
     if ([self switchFromChart:_lineChartView toChart:_barChartView]) {
-        //[_barChartView moveViewToX:2];
+        [_barChartView moveViewToX:([_barChartView barUnitValue] * _lineChartView.lowestVisibleXIndex)];
         [_barChartView animateWithYAxisDuration:0.3f];
         _isSwitching = NO;
     }
@@ -113,15 +119,10 @@
 - (void)showLineChart
 {
     if ([self switchFromChart:_barChartView toChart:_lineChartView]) {
-        //[_lineChartView moveViewToX:2];
+        [_lineChartView moveViewToX:_barChartView.lowestVisibleXIndex];
         [_lineChartView animateWithXAxisDuration:0.5f];
         _isSwitching = NO;
     }
-}
-
-- (void)optionTapped:(NSString *)key
-{
-    [super handleOption:key forChartView:_barChartView];
 }
 
 #pragma mark - ChartViewDelegate

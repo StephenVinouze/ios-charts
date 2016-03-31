@@ -11,7 +11,7 @@ import Charts
 
 public extension BarLineChartViewBase {
     
-    func configure(delegate: ChartViewDelegate) {
+    func configureWithDelegate(delegate: ChartViewDelegate?) {
         self.delegate = delegate;
         self.descriptionText = "";
         self.pinchZoomEnabled = false;
@@ -48,6 +48,15 @@ public extension BarLineChartViewBase {
     
     func configureFont() -> UIFont {
         return UIFont(name: "HelveticaNeue-Light", size: 12)!;
+    }
+    
+    func barUnitValue() -> Float {
+        if let barChartView = self as? BarChartView {
+            if let barData = barChartView.barData {
+                return Float(barData.dataSetCount) + Float(barData.groupSpace)
+            }
+        }
+        return 1;
     }
     
     func generateBarChartData(xValues: [String], wearinessEntries: [BarChartDataEntry], painEntries: [BarChartDataEntry], painScoreEntries: [BarChartDataEntry]) -> BarChartData {

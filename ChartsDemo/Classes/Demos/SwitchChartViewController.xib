@@ -2,8 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10116"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SwitchChartViewController">
@@ -18,38 +17,25 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zdz-nd-u7k">
-                    <rect key="frame" x="289" y="4" width="78" height="35"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                    <inset key="contentEdgeInsets" minX="10" minY="7" maxX="10" maxY="7"/>
-                    <state key="normal" title="Options">
-                        <color key="titleColor" red="0.29803921570000003" green="0.56078431370000004" blue="0.74117647060000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="ig5-8o-JhO"/>
-                    </connections>
-                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" userLabel="Line Chart View" customClass="LineChartView" customModule="Charts">
-                    <rect key="frame" x="0.0" y="47" width="375" height="620"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V2g-nf-IhO" customClass="BarChartView" customModule="Charts">
-                    <rect key="frame" x="0.0" y="47" width="375" height="620"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailingMargin" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" constant="-8" id="0uj-5R-J5H"/>
-                <constraint firstAttribute="bottom" secondItem="V2g-nf-IhO" secondAttribute="bottom" id="If1-xx-CMf"/>
-                <constraint firstAttribute="bottomMargin" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="-8" id="LAi-Yc-rhw"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" constant="39" id="Owr-Oe-cw3"/>
-                <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="-8" id="R4R-sD-oN2"/>
-                <constraint firstItem="V2g-nf-IhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cfz-Rq-qnD"/>
-                <constraint firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
-                <constraint firstItem="V2g-nf-IhO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="zIX-cN-5Vb"/>
-                <constraint firstAttribute="trailing" secondItem="V2g-nf-IhO" secondAttribute="trailing" id="zxF-1V-TsQ"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9sJ-bD-wf2"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BV8-7N-oBt"/>
+                <constraint firstItem="V2g-nf-IhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Dfi-4W-DHT"/>
+                <constraint firstItem="V2g-nf-IhO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="EfW-KP-gXe"/>
+                <constraint firstAttribute="trailing" secondItem="V2g-nf-IhO" secondAttribute="trailing" id="WuG-6G-FqL"/>
+                <constraint firstAttribute="bottom" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" id="fsr-Bi-aYg"/>
+                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="hOQ-7b-P6d"/>
+                <constraint firstAttribute="bottom" secondItem="V2g-nf-IhO" secondAttribute="bottom" id="o40-BT-52P"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
