@@ -16,7 +16,8 @@
 
 @interface SwitchChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet BarChartView *chartView;
+@property (nonatomic, weak) IBOutlet BarChartView *barChartView;
+@property (nonatomic, weak) IBOutlet LineChartView *lineChartView;
 
 @end
 
@@ -41,37 +42,14 @@
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
-    _chartView.delegate = self;
+    [_barChartView configure:self];
+    [_lineChartView configure:self];
     
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    [_barChartView setData:[self getBarData:_barChartView count:100 range:10]];
+    [_barChartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
     
-    _chartView.pinchZoomEnabled = NO;
-    _chartView.scaleYEnabled = NO;
-    _chartView.drawBarShadowEnabled = NO;
-    _chartView.drawGridBackgroundEnabled = NO;
-    
-    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
-    marker.minimumSize = CGSizeMake(80.f, 40.f);
-    _chartView.marker = marker;
-    
-    ChartLegend *legend = _chartView.legend;
-    legend.position = ChartLegendPositionRightOfChartInside;
-    legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
-    
-    ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
-    leftAxis.valueFormatter.maximumFractionDigits = 1;
-    leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.spaceTop = 0.25;
-    
-    _chartView.rightAxis.enabled = NO;
-    
-    [self setDataCount:30 range:10];
+    [_lineChartView setData:[self getLineData:_lineChartView count:100 range:10]];
+    [_lineChartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,56 +57,84 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)setDataCount:(int)count range:(double)range
+- (BarChartData *)getBarData:(BarLineChartViewBase *)chart count:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1990) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
     
-    double mult = range * 1000.f;
-    
     for (int i = 0; i < count; i++)
     {
-        double val = (double) (arc4random_uniform(mult) + 3.0);
+        [xVals addObject:[@(i + 1) stringValue]];
+        
+        double val = (double) (arc4random_uniform(range));
         [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
         
-        val = (double) (arc4random_uniform(mult) + 3.0);
+        val = (double) (arc4random_uniform(range));
         [yVals2 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
         
-        val = (double) (arc4random_uniform(mult) + 3.0);
+        val = (double) (arc4random_uniform(range));
         [yVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
-    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals1 label:@"Company A"];
-    [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
-    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithYVals:yVals2 label:@"Company B"];
-    [set2 setColor:[UIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
-    BarChartDataSet *set3 = [[BarChartDataSet alloc] initWithYVals:yVals3 label:@"Company C"];
-    [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
-    
-    NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set1];
-    [dataSets addObject:set2];
-    [dataSets addObject:set3];
-    
-    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    data.groupSpace = 0.8;
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
-    
-    _chartView.data = data;
-    [_chartView setVisibleXRangeWithMinXRange:7 maxXRange:15];
+    return [chart generateBarChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3];
 }
+
+- (LineChartData *)getLineData:(BarLineChartViewBase *) chart count:(int)count range:(double)range
+{
+    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < count; i++)
+    {
+        [xVals addObject:[@(i + 1) stringValue]];
+        
+        double val = (double) (arc4random_uniform(range));
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        
+        val = (double) (arc4random_uniform(range));
+        [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        
+        val = (double) (arc4random_uniform(range));
+        [yVals3 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+    }
+    
+    return [chart generateLineChartData:xVals wearinessEntries:yVals1 painEntries:yVals2 painScoreEntries:yVals3];
+}
+
+//private boolean switchChart(BarLineChartBase fromChart, BarLineChartBase toChart) {
+//    if (!isSwitching && fromChart.getAlpha() == 1) {
+//        isSwitching = true;
+//        fromChart.setAlpha(0);
+//        toChart.bringToFront();
+//        toChart.setAlpha(1);
+//        return true;
+//    }
+//    return false;
+//}
+//
+//private void showBarChart() {
+//    if (switchChart(mLineChart, mBarChart)) {
+//        mBarChart.moveViewToX(ChartUtils.getBarUnitValue(mBarChart) * mLineChart.getLowestVisibleXIndex());
+//        mBarChart.animateY(500);
+//        isSwitching = false;
+//    }
+//}
+//
+//private void showLineChart() {
+//    if (switchChart(mBarChart, mLineChart)) {
+//        mLineChart.moveViewToX(mBarChart.getLowestVisibleXIndex());
+//        mLineChart.animateX(1000);
+//        isSwitching = false;
+//    }
+//}
 
 - (void)optionTapped:(NSString *)key
 {
-    [super handleOption:key forChartView:_chartView];
+    [super handleOption:key forChartView:_barChartView];
 }
 
 #pragma mark - ChartViewDelegate

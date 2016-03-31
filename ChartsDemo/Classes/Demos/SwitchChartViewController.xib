@@ -3,11 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MultipleBarChartViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SwitchChartViewController">
             <connections>
-                <outlet property="chartView" destination="Oqd-Ej-1xl" id="tSA-aU-J9W"/>
+                <outlet property="barChartView" destination="V2g-nf-IhO" id="JcI-A7-v6c"/>
+                <outlet property="lineChartView" destination="Oqd-Ej-1xl" id="mm1-51-0Id"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,7 +29,11 @@
                         <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="ig5-8o-JhO"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="BarChartView" customModule="Charts">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" userLabel="Line Chart View" customClass="LineChartView" customModule="Charts">
+                    <rect key="frame" x="0.0" y="47" width="375" height="620"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V2g-nf-IhO" customClass="BarChartView" customModule="Charts">
                     <rect key="frame" x="0.0" y="47" width="375" height="620"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -36,7 +42,12 @@
             <constraints>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="V2g-nf-IhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Fie-xj-3LN"/>
+                <constraint firstItem="V2g-nf-IhO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="NTg-fB-L3e"/>
                 <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
+                <constraint firstAttribute="bottom" secondItem="V2g-nf-IhO" secondAttribute="bottom" id="WjY-Er-9AG"/>
+                <constraint firstAttribute="trailing" secondItem="V2g-nf-IhO" secondAttribute="trailing" id="XEQ-cE-pOI"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="-8" id="YLr-hX-Ya0"/>
                 <constraint firstAttribute="bottom" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" id="Yvx-9n-Eix"/>
                 <constraint firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
                 <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>

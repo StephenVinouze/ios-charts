@@ -95,6 +95,7 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		7608060A1CAD1C5D00330A6D /* BarLineChartViewBaseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760806091CAD1C5D00330A6D /* BarLineChartViewBaseExtensions.swift */; };
 		768E27F01CAC00D1004DCC5B /* SwitchChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 768E27EE1CAC00D1004DCC5B /* SwitchChartViewController.m */; };
 		768E27F11CAC00D1004DCC5B /* SwitchChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 768E27EF1CAC00D1004DCC5B /* SwitchChartViewController.xib */; };
 /* End PBXBuildFile section */
@@ -300,6 +301,7 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
+		760806091CAD1C5D00330A6D /* BarLineChartViewBaseExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineChartViewBaseExtensions.swift; sourceTree = "<group>"; };
 		768E27ED1CAC00D1004DCC5B /* SwitchChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchChartViewController.h; sourceTree = "<group>"; };
 		768E27EE1CAC00D1004DCC5B /* SwitchChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchChartViewController.m; sourceTree = "<group>"; };
 		768E27EF1CAC00D1004DCC5B /* SwitchChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchChartViewController.xib; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				5BD8F06F1AB89C7100566E05 /* Demos */,
 				65BF12571BFBC6EE005C28D9 /* RealmBase */,
 				65BF12561BFBC6D4005C28D9 /* RealmDemos */,
+				760806081CAD1C4800330A6D /* Extensions */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -559,6 +562,14 @@
 				5B4AC1971C4C183E0028D1A6 /* Score.m */,
 			);
 			path = RealmBase;
+			sourceTree = "<group>";
+		};
+		760806081CAD1C4800330A6D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				760806091CAD1C5D00330A6D /* BarLineChartViewBaseExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -743,6 +754,7 @@
 				5BD8F0741AB89CE500566E05 /* LineChart1ViewController.m in Sources */,
 				65BF125D1BFBC702005C28D9 /* RealmFloat.m in Sources */,
 				5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */,
+				7608060A1CAD1C5D00330A6D /* BarLineChartViewBaseExtensions.swift in Sources */,
 				5BE7E7621C693098000A0377 /* PositiveNegativeBarChartViewController.m in Sources */,
 				5B7B3AE91C4445E7001C109B /* RealmScatterChartViewController.m in Sources */,
 				5B7B3ADF1C437F61001C109B /* RealmCandleChartViewController.m in Sources */,
