@@ -70,7 +70,7 @@ public class ChartXAxisRendererDotBarChart: ChartXAxisRendererBarChart {
             labelMaxSize.width = xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
         
-        for i in self.minX.stride(to: min(self.maxX + 1, xAxis.values.count), by: xAxis.axisLabelModulus)
+        for i in self.minX...self.maxX
         {
             let label = i >= 0 && i < xAxis.values.count ? xAxis.values[i] : nil
             if (label == nil)
@@ -114,7 +114,9 @@ public class ChartXAxisRendererDotBarChart: ChartXAxisRendererBarChart {
                     }
                 }
                 
-                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                if i % xAxis.axisLabelModulus == 0 {
+                    drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                }
                 
                 let colors = barData.dotColorSets?[i]
                 if let dotColors = colors {
