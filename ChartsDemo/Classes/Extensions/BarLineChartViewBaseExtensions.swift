@@ -69,13 +69,11 @@ public extension BarLineChartViewBase {
             xAxis.setLabelsToSkip(0)
         }
         
-//        if (showDots && axis instanceof XDotAxis) {
-//            XDotAxis xDotAxis = (XDotAxis)axis;
-//            xDotAxis.setDrawDots(true);
-//            xDotAxis.setDotSize(8);
-//            xDotAxis.setDotStrokeSize(3);
-//            xDotAxis.setDotOffset(10);
-//        }
+        if let dotXAxis = xAxis as? ChartDotXAxis {
+            dotXAxis.dotSize = 10
+            dotXAxis.dotStrokeSize = 3
+            dotXAxis.dotOffset = 15
+        }
     }
     
     func configureYAxis(yAxis: ChartYAxis, withMode mode: ChartMode, andType type: ChartType, maxValue: Double) {

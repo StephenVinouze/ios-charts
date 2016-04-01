@@ -19,7 +19,7 @@
     BOOL _isSwitching;
 }
 
-@property (nonatomic, weak) IBOutlet BarChartView *barChartView;
+@property (nonatomic, weak) IBOutlet DotBarChartView *barChartView;
 @property (nonatomic, weak) IBOutlet LineChartView *lineChartView;
 
 @end

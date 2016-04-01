@@ -133,8 +133,6 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), attributes: attributes, anchor: anchor, angleRadians: angleRadians)
     }
     
-    private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
-    
     public override func renderGridLines(context context: CGContext)
     {
         guard let

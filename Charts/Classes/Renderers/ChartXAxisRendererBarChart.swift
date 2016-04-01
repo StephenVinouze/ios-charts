@@ -108,7 +108,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         }
     }
     
-    private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
+    internal var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     public override func renderGridLines(context context: CGContext)
     {
