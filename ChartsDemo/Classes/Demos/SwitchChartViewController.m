@@ -33,8 +33,6 @@ static int kMaximumVisibleEntries = 15;
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1];
-    
     self.title = @"Switch Bar Chart";
     
     self.options = @[
@@ -66,7 +64,6 @@ static int kMaximumVisibleEntries = 15;
     {
         NSMutableArray *colors = [NSMutableArray new];
         [colors addObject:[UIColor redColor]];
-        [colors addObject:[UIColor greenColor]];
         [colors addObject:[UIColor yellowColor]];
         
         [xVals addObject:[@(i + 1) stringValue]];

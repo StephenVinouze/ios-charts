@@ -31,6 +31,7 @@ public extension BarLineChartViewBase {
         self.drawGridBackgroundEnabled = false
         self.doubleTapToZoomEnabled = false
         self.drawBordersEnabled = false
+        self.backgroundColor = UIColor(colorLiteralRed: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         
         if let barChartView = self as? BarChartView {
             barChartView.drawBarShadowEnabled = false
@@ -73,7 +74,7 @@ public extension BarLineChartViewBase {
             dotXAxis.dotSize = 15
             dotXAxis.dotOffset = 5
             dotXAxis.dotStrokeSize = 2
-            dotXAxis.dotStrokeColor = UIColor.cyanColor()
+            dotXAxis.dotStrokeColor = self.backgroundColor!
         }
     }
     
