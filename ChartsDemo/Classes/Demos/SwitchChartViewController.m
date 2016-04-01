@@ -53,17 +53,24 @@ static int kMaximumVisibleEntries = 15;
     int max = 100;
     int range = 10;
     
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
-    NSMutableArray *yBarVals1 = [[NSMutableArray alloc] init];
-    NSMutableArray *yBarVals2 = [[NSMutableArray alloc] init];
-    NSMutableArray *yBarVals3 = [[NSMutableArray alloc] init];
+    NSMutableArray *xVals = [NSMutableArray new];
+    NSMutableArray *colorSets = [NSMutableArray new];
+    NSMutableArray *yVals1 = [NSMutableArray new];
+    NSMutableArray *yVals2 = [NSMutableArray new];
+    NSMutableArray *yVals3 = [NSMutableArray new];
+    NSMutableArray *yBarVals1 = [NSMutableArray new];
+    NSMutableArray *yBarVals2 = [NSMutableArray new];
+    NSMutableArray *yBarVals3 = [NSMutableArray new];
     
     for (int i = 0; i < max; i++)
     {
+        NSMutableArray *colors = [NSMutableArray new];
+        [colors addObject:[UIColor redColor]];
+        [colors addObject:[UIColor greenColor]];
+        [colors addObject:[UIColor yellowColor]];
+        
         [xVals addObject:[@(i + 1) stringValue]];
+        [colorSets addObject:colors];
         
         double val = (double) (arc4random_uniform(range));
         [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
@@ -80,7 +87,7 @@ static int kMaximumVisibleEntries = 15;
     
     [_barChartView configureWithMode:ChartModeDisplay andType:ChartTypePain];
     [_barChartView setDelegate:self];
-    [_barChartView setData:[_barChartView generateBarChartData:xVals wearinessEntries:yBarVals1 painEntries:yBarVals2 painScoreEntries:yBarVals3]];
+    [_barChartView setData:[_barChartView generateBarChartData:xVals dotColorSets:colorSets wearinessEntries:yBarVals1 painEntries:yBarVals2 painScoreEntries:yBarVals3]];
     [_barChartView setVisibleXRangeWithMinXRange:([_barChartView barUnitValue] * kMinimumVisibleEntries) maxXRange:([_barChartView barUnitValue] * kMaximumVisibleEntries)];
     [_barChartView zoom:(max / kMinimumVisibleEntries) scaleY:1 x:0 y:0];
     

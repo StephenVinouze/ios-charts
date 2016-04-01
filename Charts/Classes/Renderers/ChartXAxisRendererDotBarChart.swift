@@ -46,7 +46,7 @@ public class ChartXAxisRendererDotBarChart: ChartXAxisRendererBarChart {
     {
         guard let
             xAxis = xAxis as? ChartDotXAxis,
-            barData = chart?.data as? BarChartData
+            barData = chart?.data as? DotBarChartData
             else { return }
         
         let paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
@@ -115,16 +115,30 @@ public class ChartXAxisRendererDotBarChart: ChartXAxisRendererBarChart {
                 }
                 
                 drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
-                drawDot(context, x: position.x, y: pos, size: xAxis.dotSize, offset: xAxis.dotOffset, color: UIColor.redColor())
+                
+                let colors = barData.dotColorSets?[i]
+                if let dotColors = colors {
+                    let colorCount = CGFloat(dotColors.count)
+                    for color in colors! {
+                        let dotIndex = dotColors.indexOf(color)!
+                        let dotSize = xAxis.dotSize
+                        let dotSpace = dotSize / 2
+                        let width = dotSize * CGFloat(colorCount) - dotSpace * (colorCount - 1)
+                        let startDotX = position.x + (dotSize - width) / 2 - dotSize / 2
+                        let dotX = startDotX + (dotSize - dotSpace) * CGFloat(dotIndex)
+                        let dotY = pos + dotSize + xAxis.dotOffset
+                        drawDot(context, x: dotX, y: dotY, size: dotSize, color: color)
+                    }
+                }
             }
         }
     }
     
-    func drawDot(context: CGContext, x: CGFloat, y: CGFloat, size: CGFloat, offset: CGFloat, color: UIColor) {
+    func drawDot(context: CGContext, x: CGFloat, y: CGFloat, size: CGFloat, color: UIColor) {
         CGContextSaveGState(context)
         
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillEllipseInRect(context, CGRect(x: x - size / 2, y: y + size + offset, width: size, height: size))
+        CGContextFillEllipseInRect(context, CGRect(x: x, y: y, width: size, height: size))
         
         CGContextRestoreGState(context)
     }

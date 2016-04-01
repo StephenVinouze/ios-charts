@@ -10,9 +10,9 @@ import Foundation
 
 public class DotBarChartData: BarChartData {
     
-    public var dotColorSets: [[Int]]
+    public var dotColorSets: [[UIColor]]?
     
-    public init(xVals: [NSObject]?, dotColorSets: [[Int]], dataSets: [IChartDataSet]?)
+    public init(xVals: [NSObject]?, dotColorSets: [[UIColor]]?, dataSets: [IChartDataSet]?)
     {
         self.dotColorSets = dotColorSets
         

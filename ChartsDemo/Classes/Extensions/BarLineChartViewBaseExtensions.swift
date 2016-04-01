@@ -114,7 +114,7 @@ public extension BarLineChartViewBase {
         return 1;
     }
     
-    func generateBarChartData(xValues: [String], wearinessEntries: [BarChartDataEntry], painEntries: [BarChartDataEntry], painScoreEntries: [BarChartDataEntry]) -> BarChartData {
+    func generateBarChartData(xValues: [String], dotColorSets: [[UIColor]]?, wearinessEntries: [BarChartDataEntry], painEntries: [BarChartDataEntry], painScoreEntries: [BarChartDataEntry]) -> BarChartData {
         let wearinessSet = BarChartDataSet(yVals: wearinessEntries, label: "Fatigue")
         wearinessSet.setColor(UIColor(colorLiteralRed: 104/255, green: 241/255, blue: 175/255, alpha: 1))
         wearinessSet.axisDependency = .Left
@@ -130,7 +130,7 @@ public extension BarLineChartViewBase {
         painScoreSet.axisDependency = .Right
         painScoreSet.highlightAlpha = 0
         
-        let data = BarChartData(xVals: xValues, dataSets: [wearinessSet, painSet, painScoreSet])
+        let data = DotBarChartData(xVals: xValues, dotColorSets: dotColorSets, dataSets: [wearinessSet, painSet, painScoreSet])
         data.groupSpace = 2
         data.setDrawValues(false)
         
@@ -142,16 +142,19 @@ public extension BarLineChartViewBase {
         wearinessSet.setColor(UIColor(colorLiteralRed: 104/255, green: 241/255, blue: 175/255, alpha: 1))
         wearinessSet.axisDependency = .Left
         wearinessSet.drawCirclesEnabled = false
+        wearinessSet.setDrawHighlightIndicators(false)
         
         let painSet = LineChartDataSet(yVals: painEntries, label: "Douleur")
         painSet.setColor(UIColor(colorLiteralRed: 164/255, green: 228/255, blue: 251/255, alpha: 1))
         painSet.axisDependency = .Left
         painSet.drawCirclesEnabled = false
+        painSet.setDrawHighlightIndicators(false)
         
         let painScoreSet = LineChartDataSet(yVals: painScoreEntries, label: "Total score")
         painScoreSet.setColor(UIColor(colorLiteralRed: 242/255, green: 247/255, blue: 158/255, alpha: 1))
         painScoreSet.axisDependency = .Right
         painScoreSet.drawCirclesEnabled = false
+        painScoreSet.setDrawHighlightIndicators(false)
         
         let data = LineChartData(xVals: xValues, dataSets: [wearinessSet, painSet, painScoreSet])
         data.setDrawValues(false)
