@@ -10,59 +10,123 @@ import Foundation
 
 public class ChartXAxisRendererDotBarChart: ChartXAxisRendererBarChart {
     
-//    public override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint) {
-//        guard let
-//            xAxis = xAxis,
-//            barData = chart?.data as? BarChartData
-//            else { return }
-//        
-//        if (!xAxis.isDrawGridLinesEnabled || !xAxis.isEnabled)
-//        {
-//            return
-//        }
-//        
-//        let step = barData.dataSetCount
-//        
-//        CGContextSaveGState(context)
-//        
-//        CGContextSetShouldAntialias(context, xAxis.gridAntialiasEnabled)
-//        CGContextSetStrokeColorWithColor(context, xAxis.gridColor.CGColor)
-//        CGContextSetLineWidth(context, xAxis.gridLineWidth)
-//        CGContextSetLineCap(context, xAxis.gridLineCap)
-//        
-//        if (xAxis.gridLineDashLengths != nil)
-//        {
-//            CGContextSetLineDash(context, xAxis.gridLineDashPhase, xAxis.gridLineDashLengths, xAxis.gridLineDashLengths.count)
-//        }
-//        else
-//        {
-//            CGContextSetLineDash(context, 0.0, nil, 0)
-//        }
-//        
-//        let valueToPixelMatrix = transformer.valueToPixelMatrix
-//        
-//        var position = CGPoint(x: 0.0, y: 0.0)
-//        
-//        for i in self.minX.stride(to: self.maxX, by: xAxis.axisLabelModulus)
-//        {
-//            position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace - 0.5
-//            position.y = 0.0
-//            position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
-//            
-//            if (viewPortHandler.isInBoundsX(position.x))
-//            {
-//                _gridLineSegmentsBuffer[0].x = position.x
-//                _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop
-//                _gridLineSegmentsBuffer[1].x = position.x
-//                _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-//                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2)
-//            }
-//        }
-//        
-////        CGContextSetFillColorWithColor(context, formColor.CGColor)
-////        CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
-//        
-//        CGContextRestoreGState(context)
-//    }
+    public override init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!, chart: BarChartView)
+    {
+        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer, chart: chart)
+    }
+    
+    public override func computeAxis(xValAverageLength xValAverageLength: Double, xValues: [String?])
+    {
+        guard let xAxis = xAxis as? ChartDotXAxis else { return }
+        
+        var a = ""
+        
+        let max = Int(round(xValAverageLength + Double(xAxis.spaceBetweenLabels)))
+        
+        for _ in 0 ..< max
+        {
+            a += "h"
+        }
+        
+        let widthText = a as NSString
+        
+        let labelSize = widthText.sizeWithAttributes([NSFontAttributeName: xAxis.labelFont])
+        let labelRotatedSize = ChartUtils.sizeOfRotatedRectangle(labelSize, degrees: xAxis.labelRotationAngle)
+        let dotsHeight = xAxis.dotSize + xAxis.dotOffset * 2
+        
+        xAxis.labelWidth = labelSize.width
+        xAxis.labelHeight = labelSize.height + dotsHeight
+        xAxis.labelRotatedWidth = labelRotatedSize.width
+        xAxis.labelRotatedHeight = labelRotatedSize.height + dotsHeight
+        
+        xAxis.values = xValues
+    }
+    
+    public override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
+    {
+        guard let
+            xAxis = xAxis as? ChartDotXAxis,
+            barData = chart?.data as? BarChartData
+            else { return }
+        
+        let paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        paraStyle.alignment = .Center
+        
+        let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
+                          NSForegroundColorAttributeName: xAxis.labelTextColor,
+                          NSParagraphStyleAttributeName: paraStyle]
+        let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        
+        let step = barData.dataSetCount
+        
+        let valueToPixelMatrix = transformer.valueToPixelMatrix
+        
+        var position = CGPoint(x: 0.0, y: 0.0)
+        
+        var labelMaxSize = CGSize()
+        
+        if (xAxis.isWordWrapEnabled)
+        {
+            labelMaxSize.width = xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
+        }
+        
+        for i in self.minX.stride(to: min(self.maxX + 1, xAxis.values.count), by: xAxis.axisLabelModulus)
+        {
+            let label = i >= 0 && i < xAxis.values.count ? xAxis.values[i] : nil
+            if (label == nil)
+            {
+                continue
+            }
+            
+            position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace + barData.groupSpace / 2.0
+            position.y = 0.0
+            
+            // consider groups (center label for each group)
+            if (step > 1)
+            {
+                position.x += (CGFloat(step) - 1.0) / 2.0
+            }
+            
+            position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
+            
+            if (viewPortHandler.isInBoundsX(position.x))
+            {
+                if (xAxis.isAvoidFirstLastClippingEnabled)
+                {
+                    // avoid clipping of the last
+                    if (i == xAxis.values.count - 1)
+                    {
+                        let width = label!.sizeWithAttributes(labelAttrs).width
+                        
+                        if (position.x + width / 2.0 > viewPortHandler.contentRight)
+                        {
+                            position.x = viewPortHandler.contentRight - (width / 2.0)
+                        }
+                    }
+                    else if (i == 0)
+                    { // avoid clipping of the first
+                        let width = label!.sizeWithAttributes(labelAttrs).width
+                        
+                        if (position.x - width / 2.0 < viewPortHandler.contentLeft)
+                        {
+                            position.x = viewPortHandler.contentLeft + (width / 2.0)
+                        }
+                    }
+                }
+                
+                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                drawDot(context, x: position.x, y: pos, size: xAxis.dotSize, offset: xAxis.dotOffset, color: UIColor.redColor())
+            }
+        }
+    }
+    
+    func drawDot(context: CGContext, x: CGFloat, y: CGFloat, size: CGFloat, offset: CGFloat, color: UIColor) {
+        CGContextSaveGState(context)
+        
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextFillEllipseInRect(context, CGRect(x: x - size / 2, y: y + size + offset, width: size, height: size))
+        
+        CGContextRestoreGState(context)
+    }
     
 }

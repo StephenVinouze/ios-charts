@@ -70,9 +70,9 @@ public extension BarLineChartViewBase {
         }
         
         if let dotXAxis = xAxis as? ChartDotXAxis {
-            dotXAxis.dotSize = 10
-            dotXAxis.dotStrokeSize = 3
-            dotXAxis.dotOffset = 15
+            dotXAxis.dotSize = 15
+            dotXAxis.dotStrokeSize = 2
+            dotXAxis.dotOffset = 5
         }
     }
     
