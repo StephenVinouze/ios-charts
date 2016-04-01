@@ -127,18 +127,24 @@ public class ChartXAxisRendererDotBarChart: ChartXAxisRendererBarChart {
                         let startDotX = position.x + (dotSize - width) / 2 - dotSize / 2
                         let dotX = startDotX + (dotSize - dotSpace) * CGFloat(dotIndex)
                         let dotY = pos + dotSize + xAxis.dotOffset
-                        drawDot(context, x: dotX, y: dotY, size: dotSize, color: color)
+                        drawDot(context, x: dotX, y: dotY, size: dotSize, color: color, strokeSize: xAxis.dotStrokeSize, strokeColor: xAxis.dotStrokeColor)
                     }
                 }
             }
         }
     }
     
-    func drawDot(context: CGContext, x: CGFloat, y: CGFloat, size: CGFloat, color: UIColor) {
+    func drawDot(context: CGContext, x: CGFloat, y: CGFloat, size: CGFloat, color: UIColor, strokeSize: CGFloat, strokeColor: UIColor) {
+        let rect = CGRect(x: x, y: y, width: size, height: size)
+        
         CGContextSaveGState(context)
         
+        CGContextSetLineWidth(context, strokeSize);
+        CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+        CGContextStrokeEllipseInRect(context, rect)
+        
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillEllipseInRect(context, CGRect(x: x, y: y, width: size, height: size))
+        CGContextFillEllipseInRect(context, rect)
         
         CGContextRestoreGState(context)
     }

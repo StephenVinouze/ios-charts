@@ -71,8 +71,9 @@ public extension BarLineChartViewBase {
         
         if let dotXAxis = xAxis as? ChartDotXAxis {
             dotXAxis.dotSize = 15
-            dotXAxis.dotStrokeSize = 2
             dotXAxis.dotOffset = 5
+            dotXAxis.dotStrokeSize = 2
+            dotXAxis.dotStrokeColor = UIColor.cyanColor()
         }
     }
     
