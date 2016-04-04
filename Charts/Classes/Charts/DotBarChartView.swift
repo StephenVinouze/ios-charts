@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DotBarChartView: BarChartView {
+public class DotBarChartView: BarChartView {
     
     internal override func initialize()
     {
